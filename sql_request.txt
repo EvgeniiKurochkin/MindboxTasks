@@ -1,0 +1,49 @@
+create table dbo.products
+(
+	Id int primary key,
+	products_Name nvarchar(64) not null
+)
+
+insert into dbo.products(Id, products_Name) values (1, 'вода')
+insert into dbo.products(Id, products_Name) values (2, 'молоко')
+insert into dbo.products(Id, products_Name) values (3, 'ручка')
+insert into dbo.products(Id, products_Name) values (4, 'тарелка')
+insert into dbo.products(Id, products_Name) values (5, 'ластик')
+insert into dbo.products(Id, products_Name) values (6, 'чашка')
+insert into dbo.products(Id, products_Name) values (7, 'куртка')
+
+
+create table dbo.categories
+(
+	Id int primary key,
+	categories_Name varchar(64) not null
+)
+
+insert into dbo.categories(Id,categories_Name) values (1, 'продукты')
+insert into dbo.categories(Id, categories_Name) values (2,'канс товары')
+insert into dbo.categories(Id,categories_Name) values (3, 'посуда')
+
+
+create table dbo.products_categories
+(
+	Id int primary key,
+	productsId int foreign key references dbo.products(Id),
+	categoriesId int foreign key references dbo.categories(Id),
+)
+
+insert into dbo.products_categories(Id, productsId, categoriesId) values (1, 1, 1)
+insert into dbo.products_categories(Id, productsId, categoriesId) values (2, 2, 1)
+insert into dbo.products_categories(Id, productsId, categoriesId) values (3, 3, 2)
+insert into dbo.products_categories(Id, productsId, categoriesId) values (4, 4, 3)
+insert into dbo.products_categories(Id, productsId, categoriesId) values (5, 5, 2)
+insert into dbo.products_categories(Id, productsId, categoriesId) values (6, 6, 3)
+insert into dbo.products_categories(Id, productsId, categoriesId) values (7, 7, null)
+
+
+SELECT        dbo.categories.categories_Name, dbo.products.products_Name
+FROM            dbo.products 
+                left join dbo.products_categories ON dbo.products.Id = dbo.products_categories.productsId
+				left join dbo.categories ON dbo.products_categories.categoriesId = dbo.categories.Id
+			
+GROUP BY dbo.categories.categories_Name, dbo.products.products_Name
+
